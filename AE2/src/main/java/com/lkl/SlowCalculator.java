@@ -1,16 +1,53 @@
 package com.lkl;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+
 public class SlowCalculator implements Runnable {
 
     private final long N;
 
-    public SlowCalculator(final long N) {
+    private Integer ans;
+
+    private Thread thread;
+
+    private boolean startFinish;
+
+
+    public SlowCalculator(final Long N) {
+        ans = null;
         this.N = N;
+        startFinish = false;
+    }
+
+    public void setThread(Thread thread)
+    {
+        this.thread = thread;
+    }
+
+    public Thread getThread()
+    {
+        return thread;
     }
 
     public void run() {
         final int result = calculate(N);
-        System.out.println(result);  // you'll be changing this
+        ans = result;
+//        System.out.println(result);  // you'll be changing this
+        if(startFinish)
+            Solution.checkSet();
+    }
+
+    public Integer getAns()
+    {
+        return ans;
+    }
+
+    public void setStartFinish(boolean startFinish)
+    {
+        this.startFinish = startFinish;
     }
 
     private static int calculate(final long N) {
